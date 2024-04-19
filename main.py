@@ -1,7 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
-
 # Window Navigation
 def openGameMenu(x, y):
     mainMenu.withdraw()
@@ -18,20 +17,13 @@ def on_close():
     mainMenu.destroy()
 
 # Update hangman image
-def updateHangmanImg(value):
-    # Get the filename based on the current value of sclHangman
-    img_path = hangmanImg()
-    
-    # Open and resize the image
-    image = Image.open(img_path).resize((200, 200))
-    
-    # Convert image to PhotoImage
+def updateHangmanImg(value=None):
+    img_path = f'img/hangman{sclHangman.get()}.png' 
+    image = Image.open(img_path).resize((200, 200))    
     photo = ImageTk.PhotoImage(image)
-    
-    # Update lblHangmanImg with the new image
     lblHangmanImg.config(image=photo)
-    lblHangmanImg.image = photo  # Keep a reference to prevent garbage collection
-
+    lblHangmanImg.image = photo 
+    
 # Main menu
 mainMenu = tk.Tk()
 mainMenu.title('The voices made me do this')
@@ -44,7 +36,6 @@ lblTitle.place(relx=0.5, rely = 0.5, y=-100, anchor='center')
 btnGameMenu = tk.Button(mainMenu, text='start game', font=('Courier', 16), command=lambda: openGameMenu(mainMenu.winfo_x(), mainMenu.winfo_y()))
 btnGameMenu.place(relx=0.5, rely = 0.5, y=0, anchor='center')
 
-
 # Game menu
 gameMenu = tk.Toplevel(mainMenu)
 gameMenu.title('May Allah brought the worst for your family')
@@ -56,11 +47,7 @@ gameMenu.withdraw()
 sclHangman = tk.Scale(gameMenu, from_=0, to=7, orient='horizontal', command=updateHangmanImg, length=300)
 sclHangman.place(relx=0.5, x=0, y=+300, anchor='center')
 
-def hangmanImg():
-    count = sclHangman.get() 
-    return (f'img/hangman{count}.png')
-
-image = Image.open(hangmanImg()).resize((200,200))
+image = Image.open('img/hangman0.png').resize((200, 200))
 photo = ImageTk.PhotoImage(image)
 lblHangmanImg = tk.Label(gameMenu, image=photo)
 lblHangmanImg.place(relx=0.5, x=0, y=+50, anchor='n')
